@@ -4,16 +4,8 @@
         "handler": {},
         "parser": {}
     },
-    "html": "<p><script type=\"text/template\"><h1>Heading1</h1></script></p>",
+    "html": "<script type=\"text/template\"><h1>Heading1</h1></script>",
     "expected": [
-        {
-            "event": "opentagname",
-            "data": ["p"]
-        },
-        {
-            "event": "opentag",
-            "data": ["p", {}]
-        },
         {
             "event": "opentagname",
             "data": ["script"]
@@ -38,10 +30,6 @@
         {
             "event": "closetag",
             "data": ["script"]
-        },
-        {
-            "event": "closetag",
-            "data": ["p"]
         }
     ]
 }
