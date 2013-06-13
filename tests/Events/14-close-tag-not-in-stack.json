@@ -1,10 +1,10 @@
 {
-    "name": "Implicit open p and br tags",
+    "name": "Close tags there are not in stack",
     "options": {
         "handler": {},
         "parser": {}
     },
-    "html": "<div>Hallo</p>World</br></div></p>",
+    "html": "<div>Hallo</p>World</div>",
     "expected": [
         { "event": "opentagname", "data": ["div"] },
         { "event": "opentag", "data": ["div", {}] },
@@ -13,12 +13,6 @@
         { "event": "opentag", "data": ["p", {}] },
         { "event": "closetag", "data": ["p"] },
         { "event": "text", "data": ["World"] },
-        { "event": "opentagname", "data": ["br"] },
-        { "event": "opentag", "data": ["br", {}] },
-        { "event": "closetag", "data": ["br"] },
-        { "event": "closetag", "data": ["div"] },
-        { "event": "opentagname", "data": ["p"] },
-        { "event": "opentag", "data": ["p", {}] },
-        { "event": "closetag", "data": ["p"] }
+        { "event": "closetag", "data": ["div"] }
     ]
 }
