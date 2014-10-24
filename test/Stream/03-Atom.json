@@ -403,40 +403,19 @@
         },
         {
             "event": "opentagname",
-            "data": ["content"]
-        },
-        {
-            "event": "attribute",
-            "data": ["type", "html"]
+            "data": ["summary"]
         },
         {
             "event": "opentag",
-            "data": [
-                "content",
-                {
-                    "type": "html"
-                }
-            ]
-        },
-        {
-            "event": "opentagname",
-            "data": ["p"]
-        },
-        {
-            "event": "opentag",
-            "data": ["p", {}]
+            "data": ["summary", {}]
         },
         {
             "event": "text",
-            "data": ["Some content."]
+            "data": ["Some text."]
         },
         {
             "event": "closetag",
-            "data": ["p"]
-        },
-        {
-            "event": "closetag",
-            "data": ["content"]
+            "data": ["summary"]
         },
         {
             "event": "text",
@@ -453,10 +432,6 @@
         {
             "event": "closetag",
             "data": ["feed"]
-        },
-        {
-            "event": "text",
-            "data": ["\n"]
         }
     ]
 }
