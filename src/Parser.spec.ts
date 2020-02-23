@@ -75,13 +75,6 @@ describe("API", () => {
         expect(p.endIndex).toBe(12);
     });
 
-    test("should parse <__proto__>", () => {
-        const p = new Parser(null);
-
-        // Should not throw (see #387)
-        p.write("<__proto__>");
-    });
-
     test("should support custom tokenizer", () => {
         class CustomTokenizer extends Tokenizer {}
 
