@@ -32,7 +32,6 @@ const enum State {
     //comments
     BeforeComment,
     InComment,
-    InSpecialComment,
     AfterComment1,
     AfterComment2,
 
@@ -98,10 +97,6 @@ const enum Special {
 
 function whitespace(c: string): boolean {
     return c === " " || c === "\n" || c === "\t" || c === "\f" || c === "\r";
-}
-
-function isASCIIAlpha(c: string): boolean {
-    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
 
 interface Callbacks {
@@ -310,8 +305,6 @@ export default class Tokenizer {
         } else if (c === "?") {
             this._state = State.InProcessingInstruction;
             this._sectionStart = this._index + 1;
-        } else if (!isASCIIAlpha(c)) {
-            this._state = State.Text;
         } else {
             this._state =
                 !this._xmlMode && (c === "s" || c === "S")
@@ -343,9 +336,6 @@ export default class Tokenizer {
                 this._state = State.Text;
                 this._index--;
             }
-        } else if (!isASCIIAlpha(c)) {
-            this._state = State.InSpecialComment;
-            this._sectionStart = this._index;
         } else {
             this._state = State.InClosingTagName;
             this._sectionStart = this._index;
@@ -382,7 +372,6 @@ export default class Tokenizer {
             this._cbs.onselfclosingtag();
             this._state = State.Text;
             this._sectionStart = this._index + 1;
-            this._special = Special.None; // reset special state, in case of self-closing special tags
         } else if (!whitespace(c)) {
             this._state = State.BeforeAttributeName;
             this._index--;
@@ -492,15 +481,6 @@ export default class Tokenizer {
     _stateInComment(c: string) {
         if (c === "-") this._state = State.AfterComment1;
     }
-    _stateInSpecialComment(c: string) {
-        if (c === ">") {
-            this._cbs.oncomment(
-                this._buffer.substring(this._sectionStart, this._index)
-            );
-            this._state = State.Text;
-            this._sectionStart = this._index + 1;
-        }
-    }
     _stateAfterComment1(c: string) {
         if (c === "-") {
             this._state = State.AfterComment2;
@@ -592,8 +572,8 @@ export default class Tokenizer {
             const entity = this._buffer.substring(
                     this._sectionStart + 1,
                     this._index
-                ),
-                map: Record<string, string> = this._xmlMode
+                );
+                const map: Record<string, string> = this._xmlMode
                     ? xmlMap
                     : entityMap;
             if (Object.prototype.hasOwnProperty.call(map, entity)) {
@@ -738,8 +718,6 @@ export default class Tokenizer {
                 this._stateInAttributeName(c);
             } else if (this._state === State.InComment) {
                 this._stateInComment(c);
-            } else if (this._state === State.InSpecialComment) {
-                this._stateInSpecialComment(c);
             } else if (this._state === State.BeforeAttributeName) {
                 this._stateBeforeAttributeName(c);
             } else if (this._state === State.InTagName) {
