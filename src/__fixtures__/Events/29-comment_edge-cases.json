@@ -1,5 +1,6 @@
 {
     "name": "Comment edge-cases",
+    "options": {},
     "html": "<!-foo><!-- --- --><!--foo",
     "expected": [
         {

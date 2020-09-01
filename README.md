@@ -18,21 +18,24 @@ A live demo of htmlparser2 is available [here](https://astexplorer.net/#/2AmVrGu
 
 ```javascript
 const htmlparser2 = require("htmlparser2");
-const parser = new htmlparser2.Parser({
-    onopentag(name, attribs) {
-        if (name === "script" && attribs.type === "text/javascript") {
-            console.log("JS! Hooray!");
-        }
+const parser = new htmlparser2.Parser(
+    {
+        onopentag(name, attribs) {
+            if (name === "script" && attribs.type === "text/javascript") {
+                console.log("JS! Hooray!");
+            }
+        },
+        ontext(text) {
+            console.log("-->", text);
+        },
+        onclosetag(tagname) {
+            if (tagname === "script") {
+                console.log("That's it?!");
+            }
+        },
     },
-    ontext(text) {
-        console.log("-->", text);
-    },
-    onclosetag(tagname) {
-        if (tagname === "script") {
-            console.log("That's it?!");
-        }
-    },
-});
+    { decodeEntities: true }
+);
 parser.write(
     "Xyz <script type='text/javascript'>var foo = '<<bar>>';</ script>"
 );
@@ -55,11 +58,14 @@ Use the `WritableStream` interface to process a streaming input:
 
 ```javascript
 const WritableStream = require("htmlparser2/lib/WritableStream");
-const parserStream = new WritableStream({
-    ontext(text) {
-        console.log("Streaming:", text);
+const parserStream = new WritableStream(
+    {
+        ontext(text) {
+            console.log("Streaming:", text);
+        },
     },
-});
+    { decodeEntities: true }
+);
 
 const htmlStream = fs.createReadStream("./my-file.html");
 htmlStream.pipe(parserStream).on("finish", () => console.log("done"));

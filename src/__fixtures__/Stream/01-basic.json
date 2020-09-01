@@ -1,5 +1,6 @@
 {
     "name": "Basic html",
+    "options": {},
     "file": "Basic.html",
     "expected": [
         {

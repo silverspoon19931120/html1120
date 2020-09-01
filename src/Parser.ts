@@ -108,7 +108,7 @@ export interface ParserOptions {
     xmlMode?: boolean;
 
     /**
-     * Decode entities within the document. Defaults to `true`.
+     * If set to true, entities within the document will be decoded. Defaults to `false`.
      */
     decodeEntities?: boolean;
 

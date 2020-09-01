@@ -1,5 +1,9 @@
 {
     "name": "lt followed by whitespace",
+    "options": {
+        "handler": {},
+        "parser": {}
+    },
     "html": "a < b",
     "expected": [
         {
